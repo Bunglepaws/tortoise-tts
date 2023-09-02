@@ -50,7 +50,7 @@ build:
     - "threadpoolctl==3.1.0"
     - "tokenizers==0.12.1"
     - "tqdm==4.64.0"
-    - "transformers==4.21.0"
+    - "transformers==4.19.0"
     - "typing-extensions==4.3.0"
     - "Unidecode==1.3.4"
     - "urllib3==1.26.11"
