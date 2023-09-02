@@ -146,12 +146,15 @@ class Predictor(BasePredictor):
 
         if custom_voice is not None:
             assert (
-                custom_voice.suffix == ".mp3"
+                custom_voice.suffix == ".mp3" or custom_voice.suffix == ".pth"
             ), f"File {custom_voice} is not an mp3 file"
             print(f"Creating voice from {custom_voice}")
             # remove the custom voice dir if it exists
             shutil.rmtree(str(CUSTOM_VOICE_DIRECTORY), ignore_errors=True)
-            create_custom_voice_from_mp3(str(custom_voice))
+            if custom_voice.suffix == '.mp3':
+                create_custom_voice_from_mp3(str(custom_voice))
+            else:
+                shutil.copy(str(custom_voice), os.path.join(CUSTOM_VOICE_DIRECTORY, str(custom_voice)))
             all_voices = ["custom_voice"]
         else:
             all_voices = [voice_a]
