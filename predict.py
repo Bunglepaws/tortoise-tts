@@ -129,7 +129,7 @@ class Predictor(BasePredictor):
         preset: str = Input(
             description="Which voice preset to use. See the documentation for more information.",
             default="fast",
-            choices=["ultra_fast", "fast", "standard", "high_quality"],
+            choices=["single_sample", "ultra_fast", "fast", "standard", "high_quality"],
         ),
         seed: int = Input(
             description="Random seed which can be used to reproduce results.",
@@ -146,7 +146,7 @@ class Predictor(BasePredictor):
 
         if custom_voice is not None:
             assert (
-                custom_voice.suffix == ".mp3" or custom_voice.suffix == ".pth"
+                custom_voice.suffix == ".mp3" or custom_voice.suffix == ".pth" or custom_voice.suffix == ".bin"
             ), f"File {custom_voice} is not an mp3 file"
             print(f"Creating voice from {custom_voice}")
             # remove the custom voice dir if it exists
@@ -154,7 +154,8 @@ class Predictor(BasePredictor):
             if custom_voice.suffix == '.mp3':
                 create_custom_voice_from_mp3(str(custom_voice))
             else:
-                shutil.copy(str(custom_voice), os.path.join(CUSTOM_VOICE_DIRECTORY, str(custom_voice)))
+                os.makedirs(CUSTOM_VOICE_DIRECTORY, exist_ok=True)
+                shutil.copy(str(custom_voice), os.path.join(CUSTOM_VOICE_DIRECTORY, 'custom_voice.pth'))
             all_voices = ["custom_voice"]
         else:
             all_voices = [voice_a]
